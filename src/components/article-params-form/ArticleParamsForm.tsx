@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
@@ -25,7 +25,7 @@ type ArticleParamsFormProps = {
     onApply: (newState: ArticleStateType) => void;
 };
 
-export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormProps) => {
+export const ArticleParamsForm = memo(({ currentState, onApply }: ArticleParamsFormProps) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -51,13 +51,13 @@ export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormPr
 
     const handleApply = () => {
         onApply(formState);
-        setIsSidebarOpen(false); // Закрываем панель
+        setIsSidebarOpen(false);
     };
 
     const handleReset = () => {
         setFormState(defaultArticleState);
         onApply(defaultArticleState);
-        setIsSidebarOpen(false); // Закрываем панель
+        setIsSidebarOpen(false);
     };
 
     return (
@@ -126,4 +126,4 @@ export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormPr
             </aside>
         </>
     );
-};
+});
