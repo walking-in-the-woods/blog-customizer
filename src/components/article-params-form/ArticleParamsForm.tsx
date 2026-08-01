@@ -1,4 +1,4 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import { memo, useState, useRef } from 'react';
 
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
@@ -72,9 +72,11 @@ export const ArticleParamsForm = memo(({ currentState, onApply }: ArticleParamsF
                 ref={sidebarRef}
             >
                 <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-                    <Text size={31} weight={800} uppercase style={{ marginBottom: '30px' }}>
-                        Задайте параметры
-                    </Text>
+                    <div className={styles.title}>
+                        <Text size={31} weight={800} uppercase>
+                            Задайте параметры
+                        </Text>
+                    </div>
 
                     <Select
                         selected={formState.fontFamilyOption}
