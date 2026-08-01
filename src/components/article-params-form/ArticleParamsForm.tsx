@@ -36,24 +36,29 @@ export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormPr
         onChange: setIsSidebarOpen,
     });
 
-    // Создаем локальное состояние для формы, инициализируем переданным состоянием
     const [formState, setFormState] = useState<ArticleStateType>(currentState);
 
-    // Обработчики для каждого поля
     const handleFontFamilyChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, fontFamilyOption: value }));
-    
     const handleFontSizeChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, fontSizeOption: value }));
-    
     const handleFontColorChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, fontColor: value }));
-    
     const handleBgColorChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, backgroundColor: value }));
-    
     const handleContentWidthChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, contentWidth: value }));
+
+    // Логика кнопок
+    const handleApply = () => {
+        onApply(formState);
+    };
+
+    const handleReset = () => {
+        // Сбрасываем состояние формы и сразу применяем его
+        setFormState(defaultArticleState);
+        onApply(defaultArticleState);
+    };
 
     return (
         <>
@@ -71,7 +76,6 @@ export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormPr
                         Задайте параметры
                     </Text>
 
-                    {/* Компоненты формы */}
                     <Select
                         selected={formState.fontFamilyOption}
                         onChange={handleFontFamilyChange}
@@ -105,8 +109,18 @@ export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormPr
                     />
 
                     <div className={styles.bottomContainer}>
-                        <Button title='Сбросить' htmlType='reset' type='clear' />
-                        <Button title='Применить' htmlType='submit' type='apply' />
+                        <Button 
+                            title='Сбросить' 
+                            htmlType='reset' 
+                            type='clear' 
+                            onClick={handleReset}
+                        />
+                        <Button 
+                            title='Применить' 
+                            htmlType='submit' 
+                            type='apply' 
+                            onClick={handleApply}
+                        />
                     </div>
                 </form>
             </aside>
