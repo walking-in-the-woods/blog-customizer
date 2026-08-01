@@ -1,19 +1,23 @@
 import { Text } from 'src/ui/text';
-
 import styles from './Button.module.scss';
 import { clsx } from 'clsx';
 
-export const Button = ({
-	title,
-	onClick,
-	htmlType,
-	type,
-}: {
+type ButtonProps = {
+	/** Текст, отображаемый на кнопке. */
 	title: string;
+	/** Опциональный колбэк клика (если не используется htmlType submit/reset). */
 	onClick?: () => void;
+	/** HTML-тип кнопки: 'button', 'submit' или 'reset'. */
 	htmlType?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+	/** Стилизация кнопки: 'apply' (желтая) или 'clear' (белая). */
 	type: 'apply' | 'clear';
-}) => {
+};
+
+/**
+ * Переиспользуемый компонент кнопки.
+ * Предоставляет два предустановленных стиля: "Применить" (желтый фон) и "Сбросить" (белый фон).
+ */
+export const Button = ({ title, onClick, htmlType, type }: ButtonProps) => {
 	return (
 		<button
 			className={clsx(

@@ -8,10 +8,18 @@ export const fontFamilyClasses = [
 
 export type FontFamiliesClasses = (typeof fontFamilyClasses)[number];
 
+/**
+ * Структура данных для опции выбора в UI-компонентах (Select, RadioGroup).
+ * Содержит как визуальное представление, так и служебные данные для стилизации.
+ */
 export type OptionType = {
+	/** Отображаемый пользователю текст. */
 	title: string;
+	/** Значение, используемое для CSS-переменных или логики (например, цвет, ширина). */
 	value: string;
+	/** CSS-класс, применяемый к контейнеру опции при её выборе. */
 	className: string;
+	/** CSS-класс, применяемый к самой опции в выпадающем списке (для превью цвета/размера). */
 	optionClassName?: string;
 };
 

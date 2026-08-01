@@ -10,7 +10,6 @@ const root = createRoot(domNode);
 
 root.render(
 	<StrictMode>
-        {/* Оборачиваем всё приложение в ErrorBoundary */}
 		<ErrorBoundary>
 			<App />
 		</ErrorBoundary>

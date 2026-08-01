@@ -1,5 +1,4 @@
 import arrow from 'src/images/arrow.svg';
-
 import styles from './ArrowButton.module.scss';
 import clsx from 'clsx';
 
@@ -7,13 +6,18 @@ import clsx from 'clsx';
 export type OnClick = () => void;
 
 type ArrowButtonProps = {
+	/** Текущее состояние панели (открыта/закрыта). */
 	isOpen: boolean;
+	/** Колбэк, вызываемый при клике на кнопку. */
 	onClick: OnClick;
 };
 
+/**
+ * Кнопка с изображением стрелки, управляющая открытием и закрытием боковой панели.
+ * Изменяет направление стрелки и позиционируется в зависимости от состояния `isOpen`.
+ */
 export const ArrowButton = ({ isOpen, onClick }: ArrowButtonProps) => {
 	return (
-		/* Не забываем указаывать role и aria-label атрибуты для интерактивных элементов */
 		<div
 			role='button'
 			aria-label='Открыть/Закрыть форму параметров статьи'

@@ -6,8 +6,12 @@ import { Text } from 'src/ui/text';
 
 import styles from './Article.module.scss';
 
-// Оборачиваем компонент в memo
-export const Article = memo(() => {
+/**
+ * Компонент статьи.
+ * Обёрнут в React.memo, так как не зависит от пропсов и не должен
+ * перерисовываться при изменениях родителя (кроме изменений CSS-переменных).
+ */
+export const Article = memo(function Article() {
 	return (
 		<article className={clsx(styles.article)}>
 			<Text as='h1' size={45} weight={800} uppercase dynamicLite>
