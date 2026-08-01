@@ -49,15 +49,15 @@ export const ArticleParamsForm = ({ currentState, onApply }: ArticleParamsFormPr
     const handleContentWidthChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, contentWidth: value }));
 
-    // Логика кнопок
     const handleApply = () => {
         onApply(formState);
+        setIsSidebarOpen(false); // Закрываем панель
     };
 
     const handleReset = () => {
-        // Сбрасываем состояние формы и сразу применяем его
         setFormState(defaultArticleState);
         onApply(defaultArticleState);
+        setIsSidebarOpen(false); // Закрываем панель
     };
 
     return (
