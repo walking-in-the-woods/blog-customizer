@@ -1,4 +1,4 @@
-import { memo, useState, useRef } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
@@ -37,6 +37,12 @@ export const ArticleParamsForm = memo(({ currentState, onApply }: ArticleParamsF
     });
 
     const [formState, setFormState] = useState<ArticleStateType>(currentState);
+
+    useEffect(() => {
+        if (isSidebarOpen) {
+            setFormState(currentState);
+        }
+    }, [isSidebarOpen, currentState]);
 
     const handleFontFamilyChange = (value: OptionType) => 
         setFormState((prev) => ({ ...prev, fontFamilyOption: value }));
