@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import clsx from 'clsx';
 
 import plane from 'src/images/plane.png';
@@ -6,12 +5,7 @@ import { Text } from 'src/ui/text';
 
 import styles from './Article.module.scss';
 
-/**
- * Компонент статьи.
- * Обёрнут в React.memo, так как не зависит от пропсов и не должен
- * перерисовываться при изменениях родителя (кроме изменений CSS-переменных).
- */
-export const Article = memo(function Article() {
+export const Article = () => {
 	return (
 		<article className={clsx(styles.article)}>
 			<Text as='h1' size={45} weight={800} uppercase dynamicLite>
@@ -52,4 +46,4 @@ export const Article = memo(function Article() {
 			</Text>
 		</article>
 	);
-});
+};

@@ -23,19 +23,16 @@
 	gap: 50px;
 }
 
-/* Группа "лейбл + управляющий элемент" (Select / RadioGroup) */
 .fieldGroup {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
 }
 
-/* Обёртка для разделителя */
 .separatorWrapper {
 	width: 100%;
 }
 
-/* Контейнер для кнопок внизу формы */
 .bottomContainer {
 	display: flex;
 	justify-content: space-between;

@@ -3,15 +3,12 @@ import { createRoot } from 'react-dom/client';
 import './styles/index.scss';
 import { StrictMode } from 'react';
 import { App } from './components/app/app';
-import { ErrorBoundary } from './components/error-boundary/ErrorBoundary';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 root.render(
 	<StrictMode>
-		<ErrorBoundary>
-			<App />
-		</ErrorBoundary>
+		<App />
 	</StrictMode>
 );

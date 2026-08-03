@@ -1,4 +1,5 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import clsx from 'clsx';
 
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
@@ -6,7 +7,6 @@ import { Select } from 'src/ui/select';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Text } from 'src/ui/text';
 import { Separator } from 'src/ui/separator';
-import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 import {
 	defaultArticleState,
@@ -22,62 +22,47 @@ import {
 import styles from './ArticleParamsForm.module.scss';
 
 type ArticleParamsFormProps = {
-	/** Текущее применённое состояние статьи (используется для синхронизации при открытии). */
 	currentState: ArticleStateType;
-	/** Функция обратного вызова, применяющая переданное состояние к странице. */
 	onApply: (newState: ArticleStateType) => void;
 };
 
-/**
- * Компонент боковой панели для настройки параметров статьи.
- * Управляет открытием/закрытием сайдбара, локальным состоянием формы (которое
- * применяется только по нажатию кнопки) и синхронизацией с родителем.
- */
-export const ArticleParamsForm = memo(function ArticleParamsForm({
+export const ArticleParamsForm = ({
 	currentState,
 	onApply,
-}: ArticleParamsFormProps) {
-	// 1. Управление видимостью сайдбара
+}: ArticleParamsFormProps) => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const sidebarRef = useRef<HTMLDivElement>(null);
 
-	// 2. Закрытие сайдбара при клике вне области
-	useOutsideClickClose({
-		isOpen: isSidebarOpen,
-		rootRef: sidebarRef,
-		onClose: () => setIsSidebarOpen(false),
-		onChange: setIsSidebarOpen,
-	});
+	useEffect(() => {
+		if (!isSidebarOpen) return;
 
-	// 3. Локальное состояние формы (не применяется до нажатия "Применить")
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				sidebarRef.current &&
+				!sidebarRef.current.contains(event.target as Node)
+			) {
+				setIsSidebarOpen(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isSidebarOpen]);
+
 	const [formState, setFormState] = useState<ArticleStateType>(currentState);
 
-	// 4. Синхронизация при открытии: показываем актуальные данные страницы
-	useEffect(() => {
-		if (isSidebarOpen) {
-			setFormState(currentState);
-		}
-	}, [isSidebarOpen, currentState]);
+	const handleChange =
+		(field: keyof ArticleStateType) => (value: OptionType) => {
+			setFormState((prev) => ({ ...prev, [field]: value }));
+		};
 
-	// 5. Обработчики изменений полей
-	const handleFontFamilyChange = (value: OptionType) =>
-		setFormState((prev) => ({ ...prev, fontFamilyOption: value }));
-	const handleFontSizeChange = (value: OptionType) =>
-		setFormState((prev) => ({ ...prev, fontSizeOption: value }));
-	const handleFontColorChange = (value: OptionType) =>
-		setFormState((prev) => ({ ...prev, fontColor: value }));
-	const handleBgColorChange = (value: OptionType) =>
-		setFormState((prev) => ({ ...prev, backgroundColor: value }));
-	const handleContentWidthChange = (value: OptionType) =>
-		setFormState((prev) => ({ ...prev, contentWidth: value }));
-
-	// 6. Кнопка "Применить"
 	const handleApply = () => {
 		onApply(formState);
 		setIsSidebarOpen(false);
 	};
 
-	// 7. Кнопка "Сбросить"
 	const handleReset = () => {
 		setFormState(defaultArticleState);
 		onApply(defaultArticleState);
@@ -92,73 +77,65 @@ export const ArticleParamsForm = memo(function ArticleParamsForm({
 			/>
 
 			<aside
-				className={`${styles.container} ${
-					isSidebarOpen ? styles.container_open : ''
-				}`}
+				className={clsx(styles.container, {
+					[styles.container_open]: isSidebarOpen,
+				})}
 				ref={sidebarRef}>
 				<form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-					{/* Заголовок */}
 					<Text size={31} weight={800} uppercase>
 						Задайте параметры
 					</Text>
 
-					{/* Поле Шрифт */}
 					<div className={styles.fieldGroup}>
 						<Select
 							selected={formState.fontFamilyOption}
-							onChange={handleFontFamilyChange}
+							onChange={handleChange('fontFamilyOption')}
 							options={fontFamilyOptions}
 							title='Шрифт'
 						/>
 					</div>
 
-					{/* Поле Размер шрифта */}
 					<div className={styles.fieldGroup}>
 						<RadioGroup
 							name='fontSize'
 							options={fontSizeOptions}
 							selected={formState.fontSizeOption}
-							onChange={handleFontSizeChange}
+							onChange={handleChange('fontSizeOption')}
 							title='Размер шрифта'
 						/>
 					</div>
 
-					{/* Поле Цвет шрифта */}
 					<div className={styles.fieldGroup}>
 						<Select
 							selected={formState.fontColor}
-							onChange={handleFontColorChange}
+							onChange={handleChange('fontColor')}
 							options={fontColors}
 							title='Цвет шрифта'
 						/>
 					</div>
 
-					{/* Разделитель */}
 					<div className={styles.separatorWrapper}>
 						<Separator />
 					</div>
 
-					{/* Поле Цвет фона */}
 					<div className={styles.fieldGroup}>
 						<Select
 							selected={formState.backgroundColor}
-							onChange={handleBgColorChange}
+							onChange={handleChange('backgroundColor')}
 							options={backgroundColors}
 							title='Цвет фона'
 						/>
 					</div>
 
-					{/* Поле Ширина контента */}
 					<div className={styles.fieldGroup}>
 						<Select
 							selected={formState.contentWidth}
-							onChange={handleContentWidthChange}
+							onChange={handleChange('contentWidth')}
 							options={contentWidthArr}
 							title='Ширина контента'
 						/>
 					</div>
 
-					{/* Кнопки (прижимаются к низу автоматически через margin-top: auto) */}
 					<div className={styles.bottomContainer}>
 						<Button
 							title='Сбросить'
@@ -177,4 +154,4 @@ export const ArticleParamsForm = memo(function ArticleParamsForm({
 			</aside>
 		</>
 	);
-});
+};

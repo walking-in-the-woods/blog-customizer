@@ -10,14 +10,8 @@ import {
 
 import styles from './app.module.scss';
 
-/**
- * Корневой компонент приложения.
- * Управляет глобальным состоянием настроек статьи (appState) и передаёт его
- * в виде CSS-переменных в DOM-дерево.
- * Служит "источником истины" для применённых стилей страницы.
- */
 export const App = () => {
-	const [appState, setAppState] =
+	const [articleState, setArticleState] =
 		useState<ArticleStateType>(defaultArticleState);
 
 	return (
@@ -25,14 +19,17 @@ export const App = () => {
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': appState.fontFamilyOption.value,
-					'--font-size': appState.fontSizeOption.value,
-					'--font-color': appState.fontColor.value,
-					'--container-width': appState.contentWidth.value,
-					'--bg-color': appState.backgroundColor.value,
+					'--font-family': articleState.fontFamilyOption.value,
+					'--font-size': articleState.fontSizeOption.value,
+					'--font-color': articleState.fontColor.value,
+					'--container-width': articleState.contentWidth.value,
+					'--bg-color': articleState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm currentState={appState} onApply={setAppState} />
+			<ArticleParamsForm
+				currentState={articleState}
+				onApply={setArticleState}
+			/>
 			<Article />
 		</main>
 	);
