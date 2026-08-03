@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      
+
 jobs:
   test:
     timeout-minutes: 60
@@ -21,8 +21,10 @@ jobs:
       run: set -eu && git clone https://github.com/Yandex-Practicum/tests-blog-customizer.git /tmp/tests-blog-customizer
     - name: Install project dependencies
       run: npm install
-    - name: Install Playwright Browsers (version 1.62.1)
-      run: npx playwright@1.62.1 install
+    - name: Install Playwright 1.31.0 and browsers
+      run: |
+        npm install @playwright/test@1.31.0
+        npx playwright@1.31.0 install
     - name: Run tests
       run: bash /tmp/tests-blog-customizer/run.sh
     - uses: actions/upload-artifact@v4
