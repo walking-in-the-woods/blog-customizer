@@ -5,6 +5,7 @@ import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Text } from 'src/ui/text';
+import { Separator } from 'src/ui/separator';
 import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 import {
@@ -96,44 +97,68 @@ export const ArticleParamsForm = memo(function ArticleParamsForm({
 				}`}
 				ref={sidebarRef}>
 				<form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-					<div className={styles.title}>
-						<Text size={31} weight={800} uppercase>
-							Задайте параметры
-						</Text>
+					{/* Заголовок */}
+					<Text size={31} weight={800} uppercase>
+						Задайте параметры
+					</Text>
+
+					{/* Поле Шрифт */}
+					<div className={styles.fieldGroup}>
+						<Select
+							selected={formState.fontFamilyOption}
+							onChange={handleFontFamilyChange}
+							options={fontFamilyOptions}
+							title='Шрифт'
+						/>
 					</div>
 
-					<Select
-						selected={formState.fontFamilyOption}
-						onChange={handleFontFamilyChange}
-						options={fontFamilyOptions}
-						title='Шрифт'
-					/>
-					<RadioGroup
-						name='fontSize'
-						options={fontSizeOptions}
-						selected={formState.fontSizeOption}
-						onChange={handleFontSizeChange}
-						title='Размер шрифта'
-					/>
-					<Select
-						selected={formState.fontColor}
-						onChange={handleFontColorChange}
-						options={fontColors}
-						title='Цвет шрифта'
-					/>
-					<Select
-						selected={formState.backgroundColor}
-						onChange={handleBgColorChange}
-						options={backgroundColors}
-						title='Цвет фона'
-					/>
-					<Select
-						selected={formState.contentWidth}
-						onChange={handleContentWidthChange}
-						options={contentWidthArr}
-						title='Ширина контента'
-					/>
+					{/* Поле Размер шрифта */}
+					<div className={styles.fieldGroup}>
+						<RadioGroup
+							name='fontSize'
+							options={fontSizeOptions}
+							selected={formState.fontSizeOption}
+							onChange={handleFontSizeChange}
+							title='Размер шрифта'
+						/>
+					</div>
 
+					{/* Поле Цвет шрифта */}
+					<div className={styles.fieldGroup}>
+						<Select
+							selected={formState.fontColor}
+							onChange={handleFontColorChange}
+							options={fontColors}
+							title='Цвет шрифта'
+						/>
+					</div>
+
+					{/* Разделитель */}
+					<div className={styles.separatorWrapper}>
+						<Separator />
+					</div>
+
+					{/* Поле Цвет фона */}
+					<div className={styles.fieldGroup}>
+						<Select
+							selected={formState.backgroundColor}
+							onChange={handleBgColorChange}
+							options={backgroundColors}
+							title='Цвет фона'
+						/>
+					</div>
+
+					{/* Поле Ширина контента */}
+					<div className={styles.fieldGroup}>
+						<Select
+							selected={formState.contentWidth}
+							onChange={handleContentWidthChange}
+							options={contentWidthArr}
+							title='Ширина контента'
+						/>
+					</div>
+
+					{/* Кнопки (прижимаются к низу автоматически через margin-top: auto) */}
 					<div className={styles.bottomContainer}>
 						<Button
 							title='Сбросить'
