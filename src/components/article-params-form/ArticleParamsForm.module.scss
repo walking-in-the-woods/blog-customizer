@@ -3,9 +3,11 @@
 	left: 0;
 	width: 616px;
 	height: 100%;
-	overflow: scroll;
+	overflow-y: auto;
 	transform: translate(-616px);
 	transition: transform 0.5s ease;
+	background-color: #ffffff;
+	border-right: 1px solid #000000;
 }
 
 .container_open {
@@ -14,15 +16,21 @@
 
 .form {
 	display: flex;
-	flex-shrink: 0;
 	flex-direction: column;
-	box-sizing: border-box;
-	width: 616px;
-	height: auto;
+	padding: 50px 30px;
 	min-height: 100%;
-	padding: 50px 31px;
-	background-color: #ffffff;
-	border-right: 1px solid #000000;
+	box-sizing: border-box;
+	gap: 50px;
+}
+
+.fieldGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.separatorWrapper {
+	width: 100%;
 }
 
 .bottomContainer {

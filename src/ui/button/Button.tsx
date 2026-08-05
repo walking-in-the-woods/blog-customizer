@@ -1,19 +1,15 @@
 import { Text } from 'src/ui/text';
-
 import styles from './Button.module.scss';
 import { clsx } from 'clsx';
 
-export const Button = ({
-	title,
-	onClick,
-	htmlType,
-	type,
-}: {
+type ButtonProps = {
 	title: string;
 	onClick?: () => void;
 	htmlType?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 	type: 'apply' | 'clear';
-}) => {
+};
+
+export const Button = ({ title, onClick, htmlType, type }: ButtonProps) => {
 	return (
 		<button
 			className={clsx(
